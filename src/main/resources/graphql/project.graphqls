@@ -1,0 +1,9 @@
+extend type Query { # to work with multiple Query across schema extend the Type Query
+    getProjectDetailsById(id: String!): Project
+}
+# Access Schema definition from other Schemas
+type Project{
+ id: String!
+ name: String!
+ members:[Employee!]!
+}

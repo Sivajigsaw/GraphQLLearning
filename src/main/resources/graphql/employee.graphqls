@@ -1,0 +1,42 @@
+type Query{
+employeeById(id: String!): Employee
+}
+
+type Mutation{
+    addEmployee(name:String!, role:String!):Employee,
+    updateEmployeeAddress(id: String!, addressId: String!):Employee,
+    updateEmployeeDepartment(id:String!, departmentId: String!):Employee,
+    addAddress(address: AddressInput):Address,
+    addDepartment(name:String!):Department
+}
+
+input AddressInput{
+    addressLine1: String!
+    addressLine2: String
+    zipCode: String!
+    city: String!
+    state: String!
+}
+
+
+type Employee{
+    id: String!
+    name: String
+    address: Address
+    department: Department
+    role: String
+}
+
+type Address{
+    id: String!
+    addressLine1: String!
+    addressLine2: String
+    zipCode: String!
+    city: String!
+    state: String!
+}
+
+type Department{
+    name: String!
+    id: String!
+}
