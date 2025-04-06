@@ -1,7 +1,5 @@
 package com.siva.graphql.data.providers;
 
-import com.siva.graphql.util.IdGenerator;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -15,16 +13,6 @@ import static com.siva.graphql.util.IdGenerator.generateAddressId;
 @Component
 public class AddressDataProvider {
     private static final List<Address> addressList = new ArrayList<>();
-    private final ReadWriteLock readWriteLock = new ReentrantReadWriteLock();
-    private final Lock readLock = readWriteLock.readLock();
-    private final Lock writeLock = readWriteLock.writeLock();
-
-    public record Address(String id, String addressLine1, String addressLine2, String zipCode, String city,
-                          String state) {
-    }
-
-    public record AddressInput(String addressLine1, String addressLine2, String zipCode, String city,
-                               String state){}
 
     static {
         Address a1 = new Address("A1", "42, address line one", null, "607100", "Essen", "NRW");
@@ -36,6 +24,10 @@ public class AddressDataProvider {
         addressList.add(a3);
         addressList.add(a4);
     }
+
+    private final ReadWriteLock readWriteLock = new ReentrantReadWriteLock();
+    private final Lock readLock = readWriteLock.readLock();
+    private final Lock writeLock = readWriteLock.writeLock();
 
     public Address getAddressById(String id) {
         readLock.lock();
@@ -56,6 +48,14 @@ public class AddressDataProvider {
         } finally {
             writeLock.unlock();
         }
+    }
+
+    public record Address(String id, String addressLine1, String addressLine2, String zipCode, String city,
+                          String state) {
+    }
+
+    public record AddressInput(String addressLine1, String addressLine2, String zipCode, String city,
+                               String state) {
     }
 
 
