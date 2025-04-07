@@ -21,15 +21,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @GraphQlTest(EmployeeController.class)
-@ContextConfiguration(classes= {EmployeeController.class, EmployeeService.class, EmployeeDataProvider.class, AddressDataProvider.class, DepartmentDataProvider.class})
+@ContextConfiguration(classes = {EmployeeController.class, EmployeeService.class, EmployeeDataProvider.class, AddressDataProvider.class, DepartmentDataProvider.class})
 public class EmployeeControllerTest {
+    private static final ObjectMapper objectMapper = new ObjectMapper();
     @Autowired
     private GraphQlTester graphQlTester;
 
-    private static ObjectMapper objectMapper = new ObjectMapper();
-
     @Test
-    void testEmployeeById(){
+    void testEmployeeById() {
         // Document Name should match the name in the graphql-test file i.e. getEmployeeDetails.graphql
         Employee employee = graphQlTester.documentName("getEmployeeDetails")
                 .variable("id", "100").operationName("getEmployeeDetails")
@@ -42,7 +41,8 @@ public class EmployeeControllerTest {
         // Operation name should match the Operation given in this case mutation createAddress($addressInput: AddressInput) createAddress
         AddressDataProvider.AddressInput addressInput = new AddressDataProvider.AddressInput("Address Line1", "Address Line2", "zip", "city", "state");
         Map<String, Object> addressInputMap = objectMapper
-                .convertValue(addressInput, new TypeReference<Map<String, Object>>() {});
+                .convertValue(addressInput, new TypeReference<Map<String, Object>>() {
+                });
         AddressDataProvider.Address address = graphQlTester.documentName("getEmployeeDetails")
                 .variable("addressInput", addressInputMap).operationName("createAddress")
                 .execute().path("addAddress").entity(AddressDataProvider.Address.class).get();
