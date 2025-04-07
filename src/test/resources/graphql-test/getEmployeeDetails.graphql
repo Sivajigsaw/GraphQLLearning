@@ -4,3 +4,10 @@ query getEmployeeDetails($id: String!) {
         role
     }
 }
+
+mutation createAddress($addressInput: AddressInput){
+    addAddress( address: $addressInput) {
+        id
+        addressLine1
+    }
+}
