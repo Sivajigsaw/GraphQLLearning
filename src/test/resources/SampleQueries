@@ -1,0 +1,72 @@
+query employeeDetails {
+  employeeById(id: "E1926766100") {
+    name
+    role
+    address{
+addressLine1
+zipCode
+    }
+  }
+}
+
+mutation createEmployee { # here createEmployee is the operation name whereas addEmployee is the request path
+  addEmployee(name:"Madhan", role:"Developer") {
+    name
+    id
+    role
+  }
+}
+
+mutation createAddress{
+  addAddress( address:{addressLine1: "4, Lindenelle",
+        zipCode: "45154",
+        city: "Essen",
+        state: "NSW"}) {
+    id
+    addressLine1
+  }
+}
+
+#With variable definition
+
+mutation createAddress($addressInput: AddressInput){
+  addAddress( address: $addressInput) {
+    id
+    addressLine1
+  }
+}
+
+
+{
+    "addressInput": {
+        "addressLine1": "4, Lindenelle",
+        "addressLine2": "",
+        "zipCode": "45154",
+        "city": "Essen",
+        "state": "NSW"
+    }
+}
+
+
+mutation updateEmployeeAddress {
+  updateEmployeeAddress(id:"E1926766100", addressId:"A1330792622") {
+    name
+    id
+    role
+    address {
+        addressLine1
+    }
+  }
+}
+
+
+query projectDetails {
+  getProjectDetailsById(id:"P1") {
+    id
+    name
+    members {
+      id
+      name
+    }
+  }
+}
