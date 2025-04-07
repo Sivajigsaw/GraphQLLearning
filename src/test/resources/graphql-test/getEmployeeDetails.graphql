@@ -1,0 +1,6 @@
+query getEmployeeDetails($id: String!) {
+    employeeById(id: $id) {
+        name
+        role
+    }
+}
